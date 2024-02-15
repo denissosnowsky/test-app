@@ -3,22 +3,27 @@ import ReactDOM from "react-dom/client";
 import { Theme } from "@radix-ui/themes";
 import { DynamicContextProvider } from "@dynamic-labs/sdk-react";
 import { DynamicWagmiConnector } from "@dynamic-labs/wagmi-connector";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "@radix-ui/themes/styles.css";
 
 import App from "./App.tsx";
 import "./index.css";
 
+const queryClient = new QueryClient();
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <DynamicContextProvider
       settings={{
-        environmentId: "2b65d76e-26e2-4035-8271-c42aa3cb4adb",
+        environmentId: import.meta.env.VITE_DYNAMIC_ENVIRONMENT_ID,
       }}
     >
       <DynamicWagmiConnector>
-        <Theme>
-          <App />
-        </Theme>
+        <QueryClientProvider client={queryClient}>
+          <Theme>
+            <App />
+          </Theme>
+        </QueryClientProvider>
       </DynamicWagmiConnector>
     </DynamicContextProvider>
   </React.StrictMode>
